@@ -188,7 +188,7 @@ body {
     }
     
     /* Overlay escuro */
-    .overlay {
+    /* .overlay {
         position: fixed;
         top: 0;
         left: 0;
@@ -196,11 +196,11 @@ body {
         height: 100%;
         z-index: 999;
         display: none;
-    }
+    } */
     
-    .overlay.active {
+    /* .overlay.active {
         display: block;
-    }
+    } */
     
     /* Ajuste para outros elementos do header */
     .logo img {
