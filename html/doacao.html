@@ -3,34 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Faça uma doação para a Associação Guerreiros de Rua e ajude nossos animais resgatados">
-    <title>Doações | Associação Guerreiros de Rua</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <meta name="description" content="Canil Online da Associação Guerreiros de Rua - Adote um animal e mude uma vida">
+    <title>Doações Online | Associação Guerreiros de Rua</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="/assets/imagens/logo2.png" type="image/x-icon">
+        <link rel="shortcut icon" href="/Projeto/assets/imagens/logo2.png" type="image/x-icon">
 </head>
 <body>
     <header class="header">
         <div class="container">
-            <a href="../index.html" class="logo">
-                <img src="../assets/imagens/logo.png" alt="Logo Associação Guerreiros de Rua" width="180">
+            <a href="/Projeto/index.html" class="logo">
+                <img src="/Projeto/assets/imagens/logo2.png" alt="Logo Associação Guerreiros de Rua" width="180">
             </a>
             
-            <button class="mobile-menu-toggle" aria-label="Abrir menu">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="mobile-menu-toggle" aria-label="Abrir menu" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </button>
             
             <nav class="nav">
                 <ul class="nav-list">
-                    <li><a href="/index.html">Início</a></li>
-                   <li><a href="/assets/html/doacao.html" class="active">Doações</a></li>
-                    <li><a href="/assets/html/canil.html" >Canil</a></li>
-                    <li><a href="/assets/html/gatil.html">Gatil</a></li>
-                    <li><a href="/assets/html/contato.html">Contato</a></li>
+                    <li><a href="../index.html">Início</a></li>
+                   <li><a href="doacao.html" class="active">Doações</a></li>
+                    <li><a href="canil.html" >Canil</a></li>
+                    <li><a href="gatil.html">Gatil</a></li>
+                    <li><a href="contato.html">Contato</a></li>
                 </ul>
             </nav>
             
@@ -40,14 +40,33 @@
             </div>
         </div>
     </header>
+    <section class="hero-banner demais-carrosseis">
+         <!-- Carrossel como background -->
+        <div class="carrossel-background">
+            <div class="carrossel-container">
+                <div class="slide">
+                    <img src="../assets/imagens/animais/cachorro4.png" alt="Animal Feliz">
+                </div>
+                <div class="slide">
+                    <img src="../assets/imagens/animais/cachorro2.png" alt="Animal Feliz">
+                </div>
+                <div class="slide">
+                    <img src="../assets/imagens/animais/gato2.png" alt="Animal Feliz">
+                </div>
+                <div class="slide">
+                    <img src="../assets/imagens/animais/cachorro3.png" alt="Animal Feliz">
+                </div>
 
-    <main class="donation-main">
-        <section class="donation-hero">
+            </div>
+        </div>
+        <section class="hero-content">
             <div class="container">
                 <h1>Faça a diferença na vida dos nossos animais</h1>
                 <p>Sua doação ajuda a proporcionar cuidados veterinários, alimentação e um lar temporário para animais resgatados.</p>
             </div>
         </section>
+    </section>
+    <main class="donation-main">
 
         <section class="donation-options">
             <div class="container">
@@ -56,19 +75,19 @@
                 <div class="donation-grid">
                     <div class="donation-card">
                         <div class="donation-icon">
-                            <img src="../assets/imagens/icones/pix.png" alt="Ícone PIX">
+                            <img src="../assets/imagens/icons/pix.png" alt="Ícone PIX">
                         </div>
                         <h3>PIX</h3>
                         <p>Doação rápida e segura via PIX</p>
                         <div class="pix-code">
                             <p>Chave PIX (CNPJ):</p>
-                            <p class="pix-number">12.345.678/0001-99</p>
-                            <button class="btn-copy" data-pix="12.345.678/0001-99">Copiar</button>
+                            <p class="pix-number">40.373.274/0001-40</p>
+                            <button class="btn-copy" data-pix="40.373.274/0001-40">Copiar</button>
                         </div>
                         <p class="donation-info">Qualquer valor faz diferença!</p>
                     </div>
                     
-                    <div class="donation-card">
+                    <!-- <div class="donation-card">
                         <div class="donation-icon">
                             <img src="../assets/imagens/icones/cartao.png" alt="Ícone Cartão">
                         </div>
@@ -84,11 +103,11 @@
                             <input type="text" placeholder="Valor (R$)" required>
                             <button type="submit" class="btn-donate">Doar Agora</button>
                         </form>
-                    </div>
+                    </div> -->
                     
                     <div class="donation-card">
                         <div class="donation-icon">
-                            <img src="../assets/imagens/icones/items.png" alt="Ícone Itens">
+                            <img src="../assets/imagens/icons/itens.png" alt="Ícone Itens">
                         </div>
                         <h3>Doação de Itens</h3>
                         <p>Aceitamos doações de:</p>
@@ -129,6 +148,7 @@
             </div>
         </section>
 
+            <!-- Nessa seção, as informações do voluntário serão enviadas para o banco de dados, e do banco de dados será enviado para o whatsapp do responsável pela ONG -->
         <section class="volunteer-section">
             <div class="container">
                 <div class="volunteer-content">
@@ -170,11 +190,12 @@
     <section class="partners">
         <div class="container">
             <h2>Nossos Parceiros</h2>
-            <div class="partners-grid">
-                <img src="../assets/imagens/parceiros/clinica-veterinaria.png" alt="Clínica Veterinária Amigo Animal">
-                <img src="../assets/imagens/parceiros/pet-shop.png" alt="Pet Shop Cão Feliz">
-                <img src="../assets/imagens/parceiros/mercado-pet.png" alt="Mercado Pet">
-                <img src="../assets/imagens/parceiros/prefeitura.png" alt="Prefeitura Municipal">
+            <div class="partners-flex">
+                <img src="../assets/imagens/icons/parceiros.png" alt="Imagem de parceiros exemplos">
+                <img src="../assets/imagens/icons/parceiros.png" alt="Imagem de parceiros exemplos">
+                <img src="../assets/imagens/icons/parceiros.png" alt="Imagem de parceiros exemplos">
+                <img src="../assets/imagens/icons/parceiros.png" alt="Imagem de parceiros exemplos">
+                <img src="../assets/imagens/icons/parceiros.png" alt="Imagem de parceiros exemplos">
             </div>
         </div>
     </section>
@@ -192,11 +213,11 @@
                 <div class="footer-section">
                     <h3>Links Rápidos</h3>
                     <ul>
-                        <li><a href="index.html">Início</a></li>
-                        <li><a href="/html/doacao.html">Doações</a></li>
-                        <li><a href="/html/canil.html">Canil</a></li>
-                        <li><a href="/html/gatil.html">Gatil</a></li>
-                        <li><a href="/html/contato.html">Contato</a></li>
+                        <li><a href="../index.html">Início</a></li>
+                        <li><a href="doacao.html">Doações</a></li>
+                        <li><a href="canil.html">Canil</a></li>
+                        <li><a href="gatil.html">Gatil</a></li>
+                        <li><a href="contato.html">Contato</a></li>
                     </ul>
                 </div>
                 
@@ -205,9 +226,9 @@
                     <p>Email: contato@guerreirosderua.org</p>
                     <p>Telefone: (11) 98765-4321</p>
                     <div class="social-links">
-                        <a href="#" aria-label="WhatsApp"><img src="assets/imagens/whatsapp.png" alt="WhatsApp"></a>
-                        <a href="#" aria-label="Instagram"><img src="assets/imagens/instagram.png" alt="Instagram"></a>
-                        <a href="#" aria-label="Facebook"><img src="assets/imagens/facebook.png" alt="Facebook"></a>
+                        <a href="#" aria-label="WhatsApp"><img src="../assets/imagens/whatsapp.png" alt="WhatsApp"></a>
+                        <a href="#" aria-label="Instagram"><img src="../assets/imagens/instagram.png" alt="Instagram"></a>
+                        <!-- <a href="#" aria-label="Facebook"><img src="./assets/imagens/facebook.png" alt="Facebook"></a> -->
                     </div>
                 </div>
             </div>
@@ -218,6 +239,6 @@
         </div>
     </footer>
 
-    <script src="../assets/js/script.js"></script>
+    <script type="module" src="../assets/js/script.js"></script>
 </body>
 </html>

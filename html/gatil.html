@@ -4,32 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Canil Online da Associação Guerreiros de Rua - Adote um animal e mude uma vida">
-    <title>Canil Online | Associação Guerreiros de Rua</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <title>Gatil Online | Associação Guerreiros de Rua</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="../assets/imagens/logo2.png" type="image/x-icon">
 </head>
 <body>
     <header class="header">
         <div class="container">
             <a href="../index.html" class="logo">
-                <img src="../assets/imagens/logo.png" alt="Logo Associação Guerreiros de Rua" width="180">
+                <img src="../assets/imagens/logo2.png" alt="Logo Associação Guerreiros de Rua" width="180">
             </a>
             
-            <button class="mobile-menu-toggle" aria-label="Abrir menu">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="mobile-menu-toggle" aria-label="Abrir menu" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </button>
             
             <nav class="nav">
                 <ul class="nav-list">
-                    <li><a href="/index.html">Início</a></li>
-                   <li><a href="/assets/html/doacao.html">Doações</a></li>
-                    <li><a href="/assets/html/canil.html" >Canil</a></li>
-                    <li><a href="/assets/html/gatil.html" class="active">Gatil</a></li>
-                    <li><a href="/assets/html/contato.html">Contato</a></li>
+                    <li><a href="../index.html">Início</a></li>
+                   <li><a href="doacao.html" >Doações</a></li>
+                    <li><a href="canil.html">Canil</a></li>
+                    <li><a href="gatil.html"  class="active">Gatil</a></li>
+                    <li><a href="contato.html">Contato</a></li>
                 </ul>
             </nav>
             
@@ -39,16 +40,35 @@
             </div>
         </div>
     </header>
+    <section class="hero-banner demais-carrosseis">
+         <!-- Carrossel como background -->
+        <div class="carrossel-background">
+            <div class="carrossel-container">
+                <div class="slide">
+                    <img src="../assets/imagens/animais/gato1.png" alt="Animal Feliz">
+                </div>
+                <div class="slide">
+                    <img src="../assets/imagens/animais/gato4.png" alt="Animal Feliz">
+                </div>
+                <div class="slide">
+                    <img src="../assets/imagens/animais/gato2.png" alt="Animal Feliz">
+                </div>
+                <div class="slide">
+                    <img src="../assets/imagens/animais/cachorro3.png" alt="Animal Feliz">
+                </div>
 
-    <main class="main-content">
-        <section class="hero-banner">
+            </div>
+        </div>
+        <section class="hero-content">
             <div class="container">
-                <h1>Canil Online</h1>
-                <p>Conheça nossos cães disponíveis para adoção responsável</p>
+                <h1>Gatil Online</h1>
+                <p>Conheça nossos Gatos disponíveis para adoção responsável</p>
             </div>
         </section>
-        
-        <section class="filters container">
+    </section>
+
+    <main class="main-content">
+        <!-- <section class="filters container">
             <h2 class="visually-hidden">Filtros</h2>
             <form class="filter-form">
                 <div class="filter-group">
@@ -82,20 +102,58 @@
                 
                 <button type="submit" class="btn-filter">Filtrar</button>
             </form>
-        </section>
+        </section> -->
         
         <section class="animals-grid container">
             <h2>Cães disponíveis para adoção</h2>
             
             <div class="grid-container">
-                <!-- Exemplo de card de animal -->
+ 
                 <article class="animal-card">
                     <div class="animal-image">
-                        <img src="../assets/imagens/animais/cachorro1.jpg" alt="Rex - Labrador macho para adoção">
+                        <img src="../assets/imagens/animais/gato1.png" alt="Rex - Labrador macho para adoção">
                         <span class="badge">Disponível</span>
                     </div>
                     <div class="animal-info">
-                        <h3>Rex</h3>
+                        <h3>Gatiti</h3>
+                        <ul class="animal-details">
+                            <li><strong>Sexo:</strong> Macho</li>
+                            <li><strong>Idade:</strong> 2 anos</li>
+                            <li><strong>Porte:</strong> Médio</li>
+                            <li><strong>Castrado:</strong> Sim</li>
+                            <li><strong>Vacinado:</strong> Sim</li>
+                            <li><strong>Temperamento:</strong> Brincalhão e carinhoso</li>
+                        </ul>
+                        <button class="btn-adopt" data-animal="rex">Quero adotar</button>
+                    </div>
+                </article>
+
+                                <article class="animal-card">
+                    <div class="animal-image">
+                        <img src="../assets/imagens/animais/gato2.png" alt="Rex - Labrador macho para adoção">
+                        <span class="badge">Disponível</span>
+                    </div>
+                    <div class="animal-info">
+                        <h3>Gatiti</h3>
+                        <ul class="animal-details">
+                            <li><strong>Sexo:</strong> Macho</li>
+                            <li><strong>Idade:</strong> 2 anos</li>
+                            <li><strong>Porte:</strong> Médio</li>
+                            <li><strong>Castrado:</strong> Sim</li>
+                            <li><strong>Vacinado:</strong> Sim</li>
+                            <li><strong>Temperamento:</strong> Brincalhão e carinhoso</li>
+                        </ul>
+                        <button class="btn-adopt" data-animal="rex">Quero adotar</button>
+                    </div>
+                </article>
+
+                                <article class="animal-card">
+                    <div class="animal-image">
+                        <img src="../assets/imagens/animais/gato3.png" alt="Rex - Labrador macho para adoção">
+                        <span class="badge">Disponível</span>
+                    </div>
+                    <div class="animal-info">
+                        <h3>Gatiti</h3>
                         <ul class="animal-details">
                             <li><strong>Sexo:</strong> Macho</li>
                             <li><strong>Idade:</strong> 2 anos</li>
@@ -108,7 +166,7 @@
                     </div>
                 </article>
                 
-                <!-- Mais cards seriam adicionados dinamicamente via JavaScript ou backend -->
+
             </div>
         </section>
         
@@ -135,7 +193,7 @@
         </section>
     </main>
 
-    <footer class="footer">
+   <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
@@ -148,11 +206,11 @@
                 <div class="footer-section">
                     <h3>Links Rápidos</h3>
                     <ul>
-                        <li><a href="index.html">Início</a></li>
-                        <li><a href="/html/doacao.html">Doações</a></li>
-                        <li><a href="/html/canil.html">Canil</a></li>
-                        <li><a href="/html/gatil.html">Gatil</a></li>
-                        <li><a href="/html/contato.html">Contato</a></li>
+                        <li><a href="../index.html">Início</a></li>
+                        <li><a href="doacao.html">Doações</a></li>
+                        <li><a href="canil.html">Canil</a></li>
+                        <li><a href="gatil.html">Gatil</a></li>
+                        <li><a href="contato.html">Contato</a></li>
                     </ul>
                 </div>
                 
@@ -161,9 +219,9 @@
                     <p>Email: contato@guerreirosderua.org</p>
                     <p>Telefone: (11) 98765-4321</p>
                     <div class="social-links">
-                        <a href="#" aria-label="WhatsApp"><img src="assets/imagens/whatsapp.png" alt="WhatsApp"></a>
-                        <a href="#" aria-label="Instagram"><img src="assets/imagens/instagram.png" alt="Instagram"></a>
-                        <a href="#" aria-label="Facebook"><img src="assets/imagens/facebook.png" alt="Facebook"></a>
+                        <a href="#" aria-label="WhatsApp"><img src="../assets/imagens/whatsapp.png" alt="WhatsApp"></a>
+                        <a href="#" aria-label="Instagram"><img src="../assets/imagens/instagram.png" alt="Instagram"></a>
+                        <!-- <a href="#" aria-label="Facebook"><img src="./assets/imagens/facebook.png" alt="Facebook"></a> -->
                     </div>
                 </div>
             </div>
@@ -236,6 +294,6 @@
         </div>
     </div>
 
-    <script src="../assets/js/script.js"></script>
+    <script type="module" src="../assets/js/script.js"></script>
 </body>
 </html>

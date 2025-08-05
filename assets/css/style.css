@@ -153,6 +153,7 @@ body {
     .nav-list {
         flex-direction: column;
         gap: 0;
+        padding-top: 40px;
     }
     .nav-list li{
         margin-top: 20px;
@@ -219,6 +220,9 @@ body {
     color: white; 
     display: flex;
     align-items: center; 
+}
+.demais-carrosseis{
+    height: 40vh;
 }
 .hero-banner h1 {
     font-size: 2.5rem;
@@ -337,12 +341,13 @@ body {
 }
 
 .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
 .animal-card {
+    max-width: 320px;
     background-color: white;
     border-radius: 8px;
     overflow: hidden;
@@ -359,12 +364,13 @@ body {
     position: relative;
     height: 200px;
     overflow: hidden;
+    padding: 10px;
 }
 
 .animal-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 0.5s;
 }
 
@@ -385,6 +391,7 @@ body {
 }
 
 .animal-info {
+    padding-top: 5px !important;
     padding: 20px;
 }
 
@@ -395,6 +402,11 @@ body {
 }
 
 .animal-details {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
     list-style: none;
     margin-bottom: 15px;
 }
@@ -1006,7 +1018,6 @@ body {
 
 /* Estilos específicos para a página de Doações */
 .donation-hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../imagens/banner-doacao.jpg');
     background-size: cover;
     background-position: center;
     color: white;
@@ -1036,14 +1047,16 @@ body {
 }
 
 .donation-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 30px;
 }
 
 .donation-card {
     background-color: white;
     padding: 30px;
+    min-width: 350px;
     border-radius: 8px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
     text-align: center;
@@ -1068,9 +1081,9 @@ body {
 
 .pix-code {
     background-color: #f5f5f5;
-    padding: 15px;
+    padding: 8px;
     border-radius: 4px;
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 .pix-number {
@@ -1141,7 +1154,7 @@ body {
 
 .items-list {
     text-align: left;
-    margin: 15px 0;
+    margin: 10px 0;
     list-style-type: disc;
     padding-left: 20px;
 }
@@ -1522,5 +1535,20 @@ body {
     
     .hero-content h1 {
         font-size: 2rem;
+    }
+}
+@media (max-width: 328px) {
+    .newsletter-form{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+    .newsletter-form input{
+        border-radius: 10px 10px 0 0;
+    }
+    .btn-newsletter{
+        border-radius: 0 0 10px 10px;
+        padding: 15px 25px;
     }
 }
