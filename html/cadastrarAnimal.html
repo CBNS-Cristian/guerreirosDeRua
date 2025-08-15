@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Canil Online da Associação Guerreiros de Rua - Adote um animal e mude uma vida">
+    <title>Cadastrar Animais | Associação Guerreiros de Rua</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="../assets/imagens/logo2.png" type="image/x-icon">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/imagens/logo2.png" alt="Logo Associação Guerreiros de Rua" width="180">
+            </a>
+            
+            <button class="mobile-menu-toggle" aria-label="Abrir menu" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="../index.html">Início</a></li>
+                   <li><a href="doacao.html" >Doações</a></li>
+                    <!-- <li><a href="canil.html">Canil</a></li> -->
+                    <li><a href="gatil.html">Animais</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="cadastrarAnimal.html" class="active">Cadastrar</a></li>
+                </ul>
+            </nav>
+            
+            <div class="social-links">
+                <a href="#" aria-label="WhatsApp"><img src="../assets/imagens/whatsapp.png" alt="WhatsApp" width="24"></a>
+                <a href="#" aria-label="Instagram"><img src="../assets/imagens/instagram.png" alt="Instagram" width="24"></a>
+            </div>
+        </div>
+    </header>
+    <section class="hero-banner demais-carrosseis">
+         <!-- Carrossel como background -->
+        <div class="carrossel-background">
+            <div class="carrossel-container">
+                <div class="slide">
+                    <img src="../assets/imagens/animais/gato1.png" alt="Animal Feliz">
+                </div>
+                <div class="slide">
+                    <img src="../assets/imagens/animais/gato4.png" alt="Animal Feliz">
+                </div>
+                <div class="slide">
+                    <img src="../assets/imagens/animais/gato2.png" alt="Animal Feliz">
+                </div>
+                <div class="slide">
+                    <img src="../assets/imagens/animais/cachorro3.png" alt="Animal Feliz">
+                </div>
+
+            </div>
+        </div>
+        <section class="hero-content">
+            <div class="container">
+                <h1>Cadastro Online</h1>
+                <p>Cadastre os animais resgatados e disponíevis para adoção</p>
+            </div>
+        </section>
+    </section>
+
+    <main class="main-cadastro">
+        <section class="cadastro-section">
+            <div class="form-cadastro">
+                <!-- Enctype para suportar upload de arquivos -->
+                <form id="form-cadastro" enctype="multipart/form-data">
+                    <input type="text" id="nome" name="nome" placeholder="Nome do Animal" required>
+                    
+                    <select id="tipo" name="tipo" required>
+                        <option value="">Selecione o tipo</option>
+                        <option value="cachorro">Cachorro</option>
+                        <option value="gato">Gato</option>
+                    </select>
+
+                    <div class="form-row">
+                        <label for="nascimento">Data de Nascimento</label> <br>
+                        <input type="date" id="nascimento" name="nascimento" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <label for="dataResgate">Data de Resgate</label> <br>
+                        <input type="date" id="dataResgate" name="dataResgate">
+                    </div>
+
+                    <div class="form-row-ultimo">
+                        <!-- Name="foto" para corresponder ao multer.single('foto') -->
+                        <input type="file" id="foto" name="foto" accept="image/*" required>
+                        
+                        <div class="form-row">
+                            <textarea name="descricao" id="descricao" placeholder="Descrição do Animal" required></textarea>
+                        </div>
+                        
+                        <!-- Campo para status de adoção -->
+                        <input type="hidden" name="adotado" value="false">
+                        
+                        <button type="submit" class="btn-cadastro">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+
+
+            <!-- Os animais aparecerão aqui -->
+
+        </section>
+            <div id="lista-animais">
+                
+            </div>
+        <section class="adoption-process container">
+            <h2>Processo de Adoção</h2>
+            <ol class="process-steps">
+                <li>
+                    <h3>1. Escolha seu novo amigo</h3>
+                    <p>Conheça nossos animais e escolha aquele que mais combina com você.</p>
+                </li>
+                <li>
+                    <h3>2. Preencha o formulário</h3>
+                    <p>Nos conte sobre você e seu ambiente para garantir uma adoção responsável.</p>
+                </li>
+                <li>
+                    <h3>3. Entrevista e visita</h3>
+                    <p>Marcaremos uma conversa e visita ao local onde o animal viverá.</p>
+                </li>
+                <li>
+                    <h3>4. Aprovação e adoção</h3>
+                    <p>Se tudo estiver ok, marcamos a data para levar seu novo amigo para casa!</p>
+                </li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Associação Guerreiros de Rua</h3>
+                    <p>CNPJ: 40.373.274/0001-40</p>
+                    <p>Rua dos Animais, 123 - Centro</p>
+                    <p>Panelas - PE</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="../index.html">Início</a></li>
+                        <li><a href="doacao.html">Doações</a></li>
+                        <!-- <li><a href="canil.html">Canil</a></li> -->
+                        <li><a href="gatil.html">Animais</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <p>Email: contato@guerreirosderua.org</p>
+                    <p>Telefone: (11) 98765-4321</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="WhatsApp"><img src="../assets/imagens/whatsapp.png" alt="WhatsApp"></a>
+                        <a href="#" aria-label="Instagram"><img src="../assets/imagens/instagram.png" alt="Instagram"></a>
+                        <!-- <a href="#" aria-label="Facebook"><img src="./assets/imagens/facebook.png" alt="Facebook"></a> -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Associação Guerreiros de Rua. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Adoção -->
+    <div class="modal" id="adoptionModal">
+        <div class="modal-content">
+            <button class="close-modal" aria-label="Fechar modal">&times;</button>
+            <h2>Formulário de Adoção</h2>
+            <form id="adoptionForm">
+                <input type="hidden" id="animalId">
+                
+                <div class="form-group">
+                    <label for="nome">Nome completo*</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email*</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="telefone">Telefone*</label>
+                    <input type="tel" id="telefone" name="telefone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="endereco">Endereço completo*</label>
+                    <input type="text" id="endereco" name="endereco" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="moradia">Tipo de moradia*</label>
+                    <select id="moradia" name="moradia" required>
+                        <option value="">Selecione</option>
+                        <option value="casa">Casa</option>
+                        <option value="apartamento">Apartamento</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="experiencia">Já teve animais antes?*</label>
+                    <select id="experiencia" name="experiencia" required>
+                        <option value="">Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="motivacao">Por que quer adotar este animal?*</label>
+                    <textarea id="motivacao" name="motivacao" required></textarea>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="termos" name="termos" required>
+                    <label for="termos">Li e concordo com os <a href="#">Termos de Adoção</a>*</label>
+                </div>
+                
+                <button type="submit" class="btn-submit">Enviar solicitação</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="../assets/js/script.js"></script>
+    <script type="module" src="../assets/js/app.js"></script>
+</body>
+</html>

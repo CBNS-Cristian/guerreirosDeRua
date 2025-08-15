@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Associação Guerreiros de Rua - Resgate e adoção de animais em situação de vulnerabilidade">
+    <title>Associação Guerreiros de Rua | Resgate Animal</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="./assets/imagens/logo2.png" type="image/x-icon">
+</head>
+<body>
+    <header class="header">
+        <section class="container">
+            <a href="index.html" class="logo">
+                <img src="./assets/imagens/logo2.png" alt="Logo Associação Guerreiros de Rua" width="180">
+            </a>
+            
+            <button class="mobile-menu-toggle" aria-label="Abrir menu" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="active">Início</a></li>
+                    <li><a href="./html/doacao.html">Doações</a></li>
+                    <!-- <li><a href="./html/canil.html">Canil</a></li> -->
+                    <li><a href="./html/gatil.html">Animais</a></li>
+                    <li><a href="./html/contato.html">Contato</a></li>
+                    <li><a href="./html/cadastrarAnimal.html">Cadastrar</a></li>
+                </ul>
+            </nav>
+            
+            <article class="social-links">
+                <a href="#" aria-label="WhatsApp"><img src="./assets/imagens/whatsapp.png" alt="WhatsApp" width="24"></a>
+                <a href="#" aria-label="Instagram"><img src="./assets/imagens/instagram.png" alt="Instagram" width="24"></a>
+            </article>
+        </section>
+    </header>
+
+    <section class="hero-banner">
+        <!-- Carrossel como background -->
+        <div class="carrossel-background">
+            <div class="carrossel-container">
+                <div class="slide">
+                    <img src="./assets/imagens/animais/cachorro4.png" alt="Animal Feliz">
+                </div>
+                <div class="slide">
+                    <img src="./assets/imagens/animais/cachorro2.png" alt="Animal Feliz">
+                </div>
+                <div class="slide">
+                    <img src="./assets/imagens/animais/gato2.png" alt="Animal Feliz">
+                </div>
+                <div class="slide">
+                    <img src="./assets/imagens/animais/cachorro3.png" alt="Animal Feliz">
+                </div>
+
+            </div>
+        </div>
+        
+        <!-- Conteúdo do banner (texto e botões) -->
+        <div class="hero-content">
+            <div class="container">
+                <h1>Dê um lar para quem mais precisa</h1>
+                <p>Resgatamos, cuidamos e ajudamos animais abandonados a encontrar uma família amorosa</p>
+                <div class="hero-buttons">
+                    <a href="./html/doacao.html" class="btn-primary">Quero Ajudar</a>
+                    <a href="./html/gatil.html" class="btn-secondary">Quero Adotar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="quick-actions">
+        <div class="container">
+            <h2>Como você pode ajudar?</h2>
+            <div class="action-flex">
+                <div class="action-card">
+                    <img src="./assets/imagens/icons/doacao.png" alt="Ícone de doação">
+                    <h3>Faça uma Doação</h3>
+                    <p>Sua contribuição financeira ajuda nos cuidados veterinários, alimentação e manutenção do abrigo.</p>
+                    <a href="./html/doacao.html" class="btn-action">Doar Agora</a>
+                </div>
+                <div class="action-card">
+                    <img src="./assets/imagens/icons/adotar.png" alt="Ícone de adoção">
+                    <h3>Adote um Animal</h3>
+                    <p>Dê um lar cheio de amor para um de nossos animais resgatados.</p>
+                    <a href="./html/gatil.html" class="btn-action">Ver Animais</a>
+                </div>
+                <div class="action-card">
+                    <img src="./assets/imagens/icons/voluntario.png" alt="Ícone de voluntário">
+                    <h3>Seja Voluntário</h3>
+                    <p>Doe seu tempo e habilidades para ajudar nossos animais.</p>
+                    <a href="./html/contato.html" class="btn-action">Quero Ajudar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stat-item">
+                <span class="stat-number" data-count="35">0</span>
+                <span class="stat-label">Animais Resgatados</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-count="40">0</span>
+                <span class="stat-label">Adoções Realizadas</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-count="10">0</span>
+                <span class="stat-label">Voluntários</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-count="20">0</span>
+                <span class="stat-label">Animais no Abrigo</span>
+            </div>
+        </div>
+    </section>
+    <section class="featured-animals">
+        <div class="container">
+            <h2>Conheça alguns de nossos animais</h2>
+            <div class="animals-slider">
+
+                <div id="lista-animais">
+                    <!-- Os animais aparecerão aqui -->
+                </div>
+                <!-- <div class="animal-slide">
+                    <img src="./assets/imagens/animais/gato3.png" alt="Rex - Cachorro para adoção">
+                    <div class="slide-info">
+                        <h3>Rex</h3>
+                        <p>Macho, 2 anos, porte médio</p>
+                        <a href="./assets/html/gatil.html" class="btn-slide">Conhecer</a>
+                    </div>
+                </div>
+                <div class="animal-slide">
+                    <img src="./assets/imagens/animais/cachorro4.png" alt="Luna - Gata para adoção">
+                    <div class="slide-info">
+                        <h3>Gati</h3>
+                        <p>Fêmea, 8 meses, porte pequeno</p>
+                        <a href="./assets/html/gatil.html" class="btn-slide">Conhecer</a>
+                    </div>
+                </div>
+                <div class="animal-slide">
+                    <img src="./assets/imagens/animais/gato2.png" alt="Luna - Gata para adoção">
+                    <div class="slide-info">
+                        <h3>João</h3>
+                        <p>Macho, 1 ano, porte Médio</p>
+                        <a href="./assets/html/gatil.html" class="btn-slide">Conhecer</a>
+                    </div>
+                </div>
+                <div class="animal-slide">
+                    <img src="./assets/imagens/animais/cachorro1.png" alt="Luna - Gata para adoção">
+                    <div class="slide-info">
+                        <h3>Fefe</h3>
+                        <p>Fêmea, 1 ano, porte Médio</p>
+                        <a href="./assets/html/gatil.html" class="btn-slide">Conhecer</a>
+                    </div>
+                </div>
+                <div class="animal-slide">
+                    <img src="./assets/imagens/animais/gato4.png" alt="Luna - Gata para adoção">
+                    <div class="slide-info">
+                        <h3>Júlia</h3>
+                        <p>Fêmea, 6 meses, porte pequeno</p>
+                        <a href="./assets/html/gatil.html" class="btn-slide">Conhecer</a>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Sobre a Associação Guerreiros de Rua</h2>
+                    <p>Fundada em 2020, a Associação Guerreiros de Rua é uma organização sem fins lucrativos dedicada ao resgate, tratamento e adoção responsável de animais em situação de vulnerabilidade.</p>
+                    <p>Nossa missão é promover o bem-estar animal através de ações diretas de resgate, cuidados veterinários, castração e conscientização sobre posse responsável.</p>
+                    <a href="./html/doacao.html" class="btn-about">Saiba Mais</a>
+                </div>
+                <div class="about-image">
+                    <img src="./assets/imagens/logo2.png" alt="Equipe da Associação Guerreiros de Rua">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="partners">
+        <div class="container">
+            <h2>Nossos Parceiros</h2>
+            <div class="partners-flex">
+                <img src="./assets/imagens/icons/parceiros.png" alt="Imagem de parceiros exemplos">
+                <img src="./assets/imagens/icons/parceiros.png" alt="Imagem de parceiros exemplos">
+                <img src="./assets/imagens/icons/parceiros.png" alt="Imagem de parceiros exemplos">
+                <img src="./assets/imagens/icons/parceiros.png" alt="Imagem de parceiros exemplos">
+                <img src="./assets/imagens/icons/parceiros.png" alt="Imagem de parceiros exemplos">
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="container">
+            <h2>Receba nossas novidades</h2>
+            <p>Cadastre-se para receber informações sobre nossos eventos, campanhas e animais disponíveis para adoção.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Seu melhor e-mail" required>
+                <button type="submit" class="btn-newsletter">Cadastrar</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Associação Guerreiros de Rua</h3>
+                    <p>CNPJ: 40.373.274/0001-40</p>
+                    <p>Rua dos Animais, 123 - Centro</p>
+                    <p>Panelas - PE</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="./html/doacao.html">Doações</a></li>
+                        <li><a href="./html/canil.html">Canil</a></li>
+                        <li><a href="./html/gatil.html">Gatil</a></li>
+                        <li><a href="./html/contato.html">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <p>Email: contato@guerreirosderua.org</p>
+                    <p>Telefone: (11) 98765-4321</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="WhatsApp"><img src="./assets/imagens/whatsapp.png" alt="WhatsApp"></a>
+                        <a href="#" aria-label="Instagram"><img src="./assets/imagens/instagram.png" alt="Instagram"></a>
+                        <!-- <a href="#" aria-label="Facebook"><img src="./assets/imagens/facebook.png" alt="Facebook"></a> -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Associação Guerreiros de Rua. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="./assets/js/script.js"></script>
+    <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>
