@@ -1,4 +1,3 @@
-
 export default function renderAnimais(animais, tipoFiltro = null) {
   const container = document.getElementById('lista-animais');
   
@@ -28,10 +27,160 @@ export default function renderAnimais(animais, tipoFiltro = null) {
           <li><strong>Resgate:</strong> ${animal.data_resgate ? new Date(animal.data_resgate).toLocaleDateString() : 'Desconhecido'}</li>
           <li><strong>Descrição:</strong> ${animal.descricao || 'Sem descrição'}</li>
         </ul>
-        ${!animal.adotado ? `<button class="btn-adopt" data-id="${animal.id}">Quero adotar</button>` : ''}
+        ${!animal.adotado ? `<button class="btn-adopt" data-id="${animal.id}" data-name="${animal.nome || 'Animal'}">Quero adotar</button>` : ''}
       </div>
     </article>
   `).join('');
+
+  // Adiciona event listeners aos botões de adoção
+  document.querySelectorAll('.btn-adopt').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const animalId = e.target.getAttribute('data-id');
+      const animalName = e.target.getAttribute('data-name');
+      
+      // Verifica se o usuário está logado
+      const isAuthenticated = !!localStorage.getItem('authToken');
+      
+      if (isAuthenticated) {
+        // Usuário logado: marca como adotado no banco
+        marcarComoAdotado(animalId, animalName);
+      } else {
+        // Usuário não logado: mostra formulário WhatsApp
+        showAdoptionForm(animalId, animalName);
+      }
+      
+      e.stopPropagation();
+    });
+  });
+}
+
+// Função para marcar animal como adotado (apenas para usuários logados)
+async function marcarComoAdotado(animalId, animalName) {
+  const authToken = localStorage.getItem('authToken');
+  
+  if (!authToken) {
+    alert('Erro de autenticação. Faça login novamente.');
+    return;
+  }
+
+  try {
+    const response = await fetch(`https://guerreirosderua.onrender.com/api/animais/${animalId}/adotar`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${authToken}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Erro ao marcar como adotado');
+    }
+
+    alert(`O animal ${animalName} foi marcado como adotado com sucesso!`);
+    
+    // Recarrega a lista de animais para atualizar a interface
+    const animaisResponse = await fetch('https://guerreirosderua.onrender.com/api/animais');
+    const animais = await animaisResponse.json();
+    renderAnimais(animais);
+
+  } catch (error) {
+    console.error('Erro ao marcar como adotado:', error);
+    alert(`Erro: ${error.message}`);
+  }
+}
+
+// Função para mostrar o formulário de adoção (apenas para usuários não logados)
+function showAdoptionForm(animalId, animalName) {
+  // Criar o modal do formulário
+  const modal = document.createElement('div');
+  modal.className = 'modal-adoption';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Formulário de Adoção</h2>
+      <p>Preencha os dados para entrar em contato sobre a adoção do ${animalName}</p>
+      <form id="adoption-form">
+        <input type="hidden" id="animal-id" value="${animalId}">
+        <div class="form-group">
+          <label for="adopter-name">Seu nome completo:</label>
+          <input type="text" id="adopter-name" required>
+        </div>
+        <div class="form-group">
+          <label for="adopter-phone">Telefone/WhatsApp:</label>
+          <input type="tel" id="adopter-phone" required>
+        </div>
+        <div class="form-group">
+          <label for="adopter-email">E-mail:</label>
+          <input type="email" id="adopter-email" required>
+        </div>
+        <div class="form-group">
+          <label for="adopter-address">Endereço:</label>
+          <textarea id="adopter-address" rows="2" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="adoption-message">Mensagem (opcional):</label>
+          <textarea id="adoption-message" rows="3" placeholder="Conte um pouco sobre você e por que quer adotar este animal"></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Enviar para WhatsApp</button>
+      </form>
+    </div>
+  `;
+
+  // Adicionar o modal ao documento
+  document.body.appendChild(modal);
+
+  // Mostrar o modal
+  setTimeout(() => modal.classList.add('active'), 10);
+
+  // Fechar o modal ao clicar no X
+  modal.querySelector('.close-modal').addEventListener('click', () => {
+    modal.classList.remove('active');
+    setTimeout(() => modal.remove(), 300);
+  });
+
+  // Fechar o modal ao clicar fora dele
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+      setTimeout(() => modal.remove(), 300);
+    }
+  });
+
+  // Processar o formulário
+  const form = modal.querySelector('#adoption-form');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    processAdoptionForm(animalId, animalName);
+  });
+}
+
+// Função para processar o formulário e redirecionar para o WhatsApp
+function processAdoptionForm(animalId, animalName) {
+  // Obter os valores do formulário
+  const name = document.getElementById('adopter-name').value;
+  const phone = document.getElementById('adopter-phone').value;
+  const email = document.getElementById('adopter-email').value;
+  const address = document.getElementById('adopter-address').value;
+  const message = document.getElementById('adoption-message').value;
+
+  // Número de telefone da ONG '5581996483609'
+  const ongPhoneNumber = '5581999773241'; 
+
+  // Criar a mensagem para o WhatsApp
+  const whatsappMessage = `Olá! Gostaria de adotar o animal ${animalName}.\n\n*Meus dados:*\nNome: ${name}\nTelefone: ${phone}\nE-mail: ${email}\nEndereço: ${address}\n\n${message ? `*Mensagem:*\n${message}` : ''}`;
+
+  // Codificar a mensagem para URL
+  const encodedMessage = encodeURIComponent(whatsappMessage);
+
+  // Redirecionar para o WhatsApp
+  window.open(`https://wa.me/${ongPhoneNumber}?text=${encodedMessage}`, '_blank');
+
+  // Fechar o modal
+  const modal = document.querySelector('.modal-adoption');
+  if (modal) {
+    modal.classList.remove('active');
+    setTimeout(() => modal.remove(), 300);
+  }
 }
 
 // Configura os handlers do formulário de animais
@@ -39,7 +188,6 @@ export function setupFormHandlers() {
   const form = document.getElementById('form-cadastro');
   if (!form) return;
 
-  // Remove listeners antigos clonando o formulário
   const newForm = form.cloneNode(true);
   form.parentNode.replaceChild(newForm, form);
   const cleanForm = document.getElementById('form-cadastro');
@@ -163,12 +311,12 @@ export function setupLoginHandler() {
   }
 }
 
-// FUNÇÃO AJUSTADA - setupRegisterHandler
+
 export function setupRegisterHandler() {
   const registerForm = document.getElementById('registerUserForm');
   
   if (registerForm) {
-    // Clone o formulário para limpar event listeners antigos
+
     const newForm = registerForm.cloneNode(true);
     registerForm.parentNode.replaceChild(newForm, registerForm);
     
@@ -249,7 +397,7 @@ export function setupRegisterHandler() {
   }
 }
 
-// Funções auxiliares (mantidas iguais)
+
 export function estaAutenticado() {
   return !!localStorage.getItem('authToken'); 
 }

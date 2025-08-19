@@ -21,29 +21,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderAnimais(animais);
     
     // Adiciona event listeners para botões de adoção
-    document.addEventListener('click', async (e) => {
-      if (e.target.classList.contains('btn-adopt')) {
-        const animalId = e.target.dataset.id;
-        try {
-          const authToken = localStorage.getItem('authToken');
-          const response = await fetch(`https://guerreirosderua.onrender.com/api/animais/${animalId}/adotar`, {
-            method: 'PATCH',
-            headers: {
-              'Authorization': `Bearer ${authToken}`
-            }
-          });
+    // document.addEventListener('click', async (e) => {
+    //   if (e.target.classList.contains('btn-adopt')) {
+    //     const animalId = e.target.dataset.id;
+    //     try {
+    //       const authToken = localStorage.getItem('authToken');
+    //       const response = await fetch(`https://guerreirosderua.onrender.com/api/animais/${animalId}/adotar`, {
+    //         method: 'PATCH',
+    //         headers: {
+    //           'Authorization': `Bearer ${authToken}`
+    //         }
+    //       });
           
-          if (response.ok) {
-            alert('Animal marcado como adotado com sucesso!');
-            const animais = await fetch('https://guerreirosderua.onrender.com/api/animais').then(r => r.json());
-            renderAnimais(animais);
-          }
-        } catch (error) {
-          console.error('Erro:', error);
-          alert('Erro ao processar adoção: ' + error.message);
-        }
-      }
-    });
+    //       if (response.ok) {
+    //         alert('Animal marcado como adotado com sucesso!');
+    //         const animais = await fetch('https://guerreirosderua.onrender.com/api/animais').then(r => r.json());
+    //         renderAnimais(animais);
+    //       }
+    //     } catch (error) {
+    //       console.error('Erro:', error);
+    //       alert('Erro ao processar adoção: ' + error.message);
+    //     }
+    //   }
+    // });
     
   } catch (error) {
     console.error('Erro inicial:', error);

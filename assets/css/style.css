@@ -357,6 +357,7 @@ body {
 .animal-card {
     max-width: 320px;
     min-height: 480px;
+    height: 530px;
     background-color: white;
     border-radius: 8px;
     overflow: hidden;
@@ -845,23 +846,28 @@ body {
     margin-bottom: 40px;
     color: var(--primary-color);
 }
-
-.animals-slider {
+.animals-slider #lista-animais{
     display: flex;
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
     gap: 20px;
     overflow-x: auto;
-    padding: 20px 0;
+    padding: 20px;
     scroll-snap-type: x mandatory;
     cursor: grab;
+    scroll-padding: 20px;
 }
 
-.animal-slide {
+.animals-slider .animal-card{
     flex: 0 0 300px;
     scroll-snap-align: start;
     position: relative;
+    min-height: 550px;
     border-radius: 8px;
     overflow: hidden;
     cursor: auto;
+    margin-left: 0;
 }
 
 .animal-slide img {
@@ -2105,3 +2111,94 @@ body {
 #registerUserForm .form-group:nth-child(3) { animation-delay: 0.3s; }
 #registerUserForm .form-group:nth-child(4) { animation-delay: 0.4s; }
 #registerUserForm .form-group:nth-child(5) { animation-delay: 0.5s; }
+
+/* CSS Modal de adoção */
+/* Estilos para o modal de adoção */
+.modal-adoption {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.modal-adoption.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-adoption .modal-content {
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  transform: translateY(-50px);
+  transition: transform 0.3s ease;
+}
+
+.modal-adoption.active .modal-content {
+  transform: translateY(0);
+}
+
+.modal-adoption .close-modal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.modal-adoption h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.modal-adoption .form-group {
+  margin-bottom: 15px;
+}
+
+.modal-adoption label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.modal-adoption input,
+.modal-adoption textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.modal-adoption .btn-submit {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.modal-adoption .btn-submit:hover {
+  background-color: #45a049;
+}
