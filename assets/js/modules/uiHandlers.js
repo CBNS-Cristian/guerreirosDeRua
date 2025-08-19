@@ -260,6 +260,11 @@ export async function fazerLogin(email, senha) {
             body: JSON.stringify(loginData)
         });
 
+        // Tratamento específico para erro 429
+        if (response.status === 429) {
+            throw new Error('Muitas tentativas de login. Aguarde alguns minutos e tente novamente.');
+        }
+
         const data = await response.json();
         
         if (!response.ok) {
@@ -279,6 +284,45 @@ export async function fazerLogin(email, senha) {
         console.error('Erro no login:', error);
         throw error;
     }
+}
+
+// Na função marcarComoAdotado
+async function marcarComoAdotado(animalId, animalName) {
+  const authToken = localStorage.getItem('authToken');
+  
+  if (!authToken) {
+    alert('Erro de autenticação. Faça login novamente.');
+    return;
+  }
+
+  try {
+    const response = await fetch(`https://guerreirosderua.onrender.com/api/animais/${animalId}/adotar`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${authToken}`
+      }
+    });
+
+    // Tratamento específico para erro 429
+    if (response.status === 429) {
+      throw new Error('Muitas solicitações. Tente novamente em alguns minutos.');
+    }
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Erro ao marcar como adotado');
+    }
+
+    alert(`O animal ${animalName} foi marcado como adotado com sucesso!`);
+    
+    const animaisResponse = await fetch('https://guerreirosderua.onrender.com/api/animais');
+    const animais = await animaisResponse.json();
+    renderAnimais(animais);
+
+  } catch (error) {
+    console.error('Erro ao marcar como adotado:', error);
+    alert(`Erro: ${error.message}`);
+  }
 }
 
 export function setupLoginHandler() {
