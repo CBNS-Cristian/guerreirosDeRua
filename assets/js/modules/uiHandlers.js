@@ -54,7 +54,7 @@ export default function renderAnimais(animais, tipoFiltro = null) {
   });
 }
 
-// Função para marcar animal como adotado (apenas para usuários logados)
+// Função para marcar animal como adotado (apenas para usuários logados) - REMOVIDA A DUPLICAÇÃO
 async function marcarComoAdotado(animalId, animalName) {
   const authToken = localStorage.getItem('authToken');
   
@@ -71,6 +71,11 @@ async function marcarComoAdotado(animalId, animalName) {
       }
     });
 
+    // Tratamento específico para erro 429
+    if (response.status === 429) {
+      throw new Error('Muitas solicitações. Tente novamente em alguns minutos.');
+    }
+
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.error || 'Erro ao marcar como adotado');
@@ -78,7 +83,6 @@ async function marcarComoAdotado(animalId, animalName) {
 
     alert(`O animal ${animalName} foi marcado como adotado com sucesso!`);
     
-    // Recarrega a lista de animais para atualizar a interface
     const animaisResponse = await fetch('https://guerreirosderua.onrender.com/api/animais');
     const animais = await animaisResponse.json();
     renderAnimais(animais);
@@ -98,7 +102,7 @@ function showAdoptionForm(animalId, animalName) {
     <div class="modal-content">
       <span class="close-modal">&times;</span>
       <h2>Formulário de Adoção</h2>
-      <p>Preencha os dados para entrar em contato sobre a adoção do ${animalName}</p>
+      <p>Preencha os dados para entrar em contato sobre la adoção do ${animalName}</p>
       <form id="adoption-form">
         <input type="hidden" id="animal-id" value="${animalId}">
         <div class="form-group">
@@ -163,7 +167,7 @@ function processAdoptionForm(animalId, animalName) {
   const address = document.getElementById('adopter-address').value;
   const message = document.getElementById('adoption-message').value;
 
-  // Número de telefone da ONG '5581996483609'
+  // Número de telefone da ONG
   const ongPhoneNumber = '5581999773241'; 
 
   // Criar a mensagem para o WhatsApp
@@ -220,6 +224,11 @@ export function setupFormHandlers() {
         },
         body: formData
       });
+
+      // Tratamento específico para erro 429
+      if (response.status === 429) {
+        throw new Error('Muitas solicitações. Tente novamente em alguns minutos.');
+      }
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -286,45 +295,6 @@ export async function fazerLogin(email, senha) {
     }
 }
 
-// Na função marcarComoAdotado
-async function marcarComoAdotado(animalId, animalName) {
-  const authToken = localStorage.getItem('authToken');
-  
-  if (!authToken) {
-    alert('Erro de autenticação. Faça login novamente.');
-    return;
-  }
-
-  try {
-    const response = await fetch(`https://guerreirosderua.onrender.com/api/animais/${animalId}/adotar`, {
-      method: 'PATCH',
-      headers: {
-        'Authorization': `Bearer ${authToken}`
-      }
-    });
-
-    // Tratamento específico para erro 429
-    if (response.status === 429) {
-      throw new Error('Muitas solicitações. Tente novamente em alguns minutos.');
-    }
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Erro ao marcar como adotado');
-    }
-
-    alert(`O animal ${animalName} foi marcado como adotado com sucesso!`);
-    
-    const animaisResponse = await fetch('https://guerreirosderua.onrender.com/api/animais');
-    const animais = await animaisResponse.json();
-    renderAnimais(animais);
-
-  } catch (error) {
-    console.error('Erro ao marcar como adotado:', error);
-    alert(`Erro: ${error.message}`);
-  }
-}
-
 export function setupLoginHandler() {
   const loginForm = document.getElementById('loginForm');
   const loginError = document.getElementById('loginError');
@@ -355,12 +325,10 @@ export function setupLoginHandler() {
   }
 }
 
-
 export function setupRegisterHandler() {
   const registerForm = document.getElementById('registerUserForm');
   
   if (registerForm) {
-
     const newForm = registerForm.cloneNode(true);
     registerForm.parentNode.replaceChild(newForm, registerForm);
     
@@ -412,6 +380,11 @@ export function setupRegisterHandler() {
           })
         });
 
+        // Tratamento específico para erro 429
+        if (response.status === 429) {
+          throw new Error('Muitas solicitações. Tente novamente em alguns minutos.');
+        }
+
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.error || 'Erro ao registrar usuário');
@@ -440,7 +413,6 @@ export function setupRegisterHandler() {
     submitButton.addEventListener('click', handleSubmit);
   }
 }
-
 
 export function estaAutenticado() {
   return !!localStorage.getItem('authToken'); 
