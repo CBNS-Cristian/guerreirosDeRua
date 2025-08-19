@@ -231,8 +231,7 @@ export function setupRegisterHandler() {
         
         // Redireciona para login após 2 segundos
         setTimeout(() => {
-          const basePath = window.location.href.split('/frontend/')[0] + '/frontend/';
-          window.location.href = basePath + 'index.html'
+           window.location.href = '/guerreirosDeRua/index.html'; 
         }, 2000);
 
       } catch (error) {
@@ -258,8 +257,7 @@ export function estaAutenticado() {
 export function fazerLogout() {
   localStorage.removeItem('authToken');
   localStorage.removeItem('userData');
-  const basePath = window.location.href.split('/frontend/')[0] + '/frontend/';
-  window.location.href = basePath + 'index.html'
+  window.location.href = '/guerreirosDeRua/index.html';   
 }
 
 export function updateAuthUI() {
