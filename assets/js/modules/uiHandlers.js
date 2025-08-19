@@ -54,7 +54,7 @@ export default function renderAnimais(animais, tipoFiltro = null) {
   });
 }
 
-// Função para marcar animal como adotado (apenas para usuários logados) - REMOVIDA A DUPLICAÇÃO
+// Função para marcar animal como adotado
 async function marcarComoAdotado(animalId, animalName) {
   const authToken = localStorage.getItem('authToken');
   
@@ -83,6 +83,7 @@ async function marcarComoAdotado(animalId, animalName) {
 
     alert(`O animal ${animalName} foi marcado como adotado com sucesso!`);
     
+    // Recarrega a lista de animais
     const animaisResponse = await fetch('https://guerreirosderua.onrender.com/api/animais');
     const animais = await animaisResponse.json();
     renderAnimais(animais);
@@ -93,16 +94,15 @@ async function marcarComoAdotado(animalId, animalName) {
   }
 }
 
-// Função para mostrar o formulário de adoção (apenas para usuários não logados)
+// Função para mostrar formulário de adoção
 function showAdoptionForm(animalId, animalName) {
-  // Criar o modal do formulário
   const modal = document.createElement('div');
   modal.className = 'modal-adoption';
   modal.innerHTML = `
     <div class="modal-content">
       <span class="close-modal">&times;</span>
       <h2>Formulário de Adoção</h2>
-      <p>Preencha os dados para entrar em contato sobre la adoção do ${animalName}</p>
+      <p>Preencha os dados para entrar em contato sobre a adoção do ${animalName}</p>
       <form id="adoption-form">
         <input type="hidden" id="animal-id" value="${animalId}">
         <div class="form-group">
@@ -130,19 +130,15 @@ function showAdoptionForm(animalId, animalName) {
     </div>
   `;
 
-  // Adicionar o modal ao documento
   document.body.appendChild(modal);
-
-  // Mostrar o modal
   setTimeout(() => modal.classList.add('active'), 10);
 
-  // Fechar o modal ao clicar no X
+  // Fechar modal
   modal.querySelector('.close-modal').addEventListener('click', () => {
     modal.classList.remove('active');
     setTimeout(() => modal.remove(), 300);
   });
 
-  // Fechar o modal ao clicar fora dele
   modal.addEventListener('click', (e) => {
     if (e.target === modal) {
       modal.classList.remove('active');
@@ -150,7 +146,7 @@ function showAdoptionForm(animalId, animalName) {
     }
   });
 
-  // Processar o formulário
+  // Processar formulário
   const form = modal.querySelector('#adoption-form');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -158,28 +154,20 @@ function showAdoptionForm(animalId, animalName) {
   });
 }
 
-// Função para processar o formulário e redirecionar para o WhatsApp
+// Processar formulário de adoção
 function processAdoptionForm(animalId, animalName) {
-  // Obter os valores do formulário
   const name = document.getElementById('adopter-name').value;
   const phone = document.getElementById('adopter-phone').value;
   const email = document.getElementById('adopter-email').value;
   const address = document.getElementById('adopter-address').value;
   const message = document.getElementById('adoption-message').value;
 
-  // Número de telefone da ONG
-  const ongPhoneNumber = '5581999773241'; 
-
-  // Criar a mensagem para o WhatsApp
+  const ongPhoneNumber = '5581999773241';
   const whatsappMessage = `Olá! Gostaria de adotar o animal ${animalName}.\n\n*Meus dados:*\nNome: ${name}\nTelefone: ${phone}\nE-mail: ${email}\nEndereço: ${address}\n\n${message ? `*Mensagem:*\n${message}` : ''}`;
-
-  // Codificar a mensagem para URL
   const encodedMessage = encodeURIComponent(whatsappMessage);
 
-  // Redirecionar para o WhatsApp
   window.open(`https://wa.me/${ongPhoneNumber}?text=${encodedMessage}`, '_blank');
 
-  // Fechar o modal
   const modal = document.querySelector('.modal-adoption');
   if (modal) {
     modal.classList.remove('active');
@@ -187,25 +175,21 @@ function processAdoptionForm(animalId, animalName) {
   }
 }
 
-// Configura os handlers do formulário de animais
+// Configurar handlers de formulários
 export function setupFormHandlers() {
   const form = document.getElementById('form-cadastro');
   if (!form) return;
-
-  const newForm = form.cloneNode(true);
-  form.parentNode.replaceChild(newForm, form);
-  const cleanForm = document.getElementById('form-cadastro');
 
   const loadingIndicator = document.createElement('div');
   loadingIndicator.className = 'loading-indicator';
   loadingIndicator.textContent = 'Enviando...';
   loadingIndicator.style.display = 'none';
-  cleanForm.parentNode.insertBefore(loadingIndicator, cleanForm.nextSibling);
+  form.parentNode.insertBefore(loadingIndicator, form.nextSibling);
 
-  cleanForm.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    const formData = new FormData(cleanForm);
+    const formData = new FormData(form);
     const authToken = localStorage.getItem('authToken');
     
     if (!authToken) {
@@ -215,7 +199,7 @@ export function setupFormHandlers() {
 
     try {
       loadingIndicator.style.display = 'block';
-      cleanForm.querySelector('button[type="submit"]').disabled = true;
+      form.querySelector('button[type="submit"]').disabled = true;
 
       const response = await fetch('https://guerreirosderua.onrender.com/api/animais', {
         method: 'POST',
@@ -225,7 +209,6 @@ export function setupFormHandlers() {
         body: formData
       });
 
-      // Tratamento específico para erro 429
       if (response.status === 429) {
         throw new Error('Muitas solicitações. Tente novamente em alguns minutos.');
       }
@@ -236,7 +219,7 @@ export function setupFormHandlers() {
       }
 
       alert('Animal cadastrado com sucesso!');
-      cleanForm.reset();
+      form.reset();
       
       // Atualiza a lista de animais
       const animaisResponse = await fetch('https://guerreirosderua.onrender.com/api/animais');
@@ -248,53 +231,53 @@ export function setupFormHandlers() {
       alert(`Erro: ${error.message}`);
     } finally {
       loadingIndicator.style.display = 'none';
-      cleanForm.querySelector('button[type="submit"]').disabled = false;
+      form.querySelector('button[type="submit"]').disabled = false;
     }
   });
 }
 
-// Funções de Autenticação
+// Função de login
 export async function fazerLogin(email, senha) {
-    const loginData = {
-        email: email.trim(),
-        senha: senha.trim()
-    };
+  const loginData = {
+    email: email.trim(),
+    senha: senha.trim()
+  };
 
-    try {
-        const response = await fetch('https://guerreirosderua.onrender.com/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(loginData)
-        });
+  try {
+    const response = await fetch('https://guerreirosderua.onrender.com/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(loginData)
+    });
 
-        // Tratamento específico para erro 429
-        if (response.status === 429) {
-            throw new Error('Muitas tentativas de login. Aguarde alguns minutos e tente novamente.');
-        }
-
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(data.error || 'Erro na autenticação');
-        }
-
-        localStorage.setItem('authToken', data.token);
-        localStorage.setItem('userData', JSON.stringify({
-            id: data.user.id,
-            nome: data.user.nome,
-            email: data.user.email
-        }));
-        
-        return data.user;
-
-    } catch (error) {
-        console.error('Erro no login:', error);
-        throw error;
+    if (response.status === 429) {
+      throw new Error('Muitas tentativas de login. Aguarde alguns minutos e tente novamente.');
     }
+
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.error || 'Erro na autenticação');
+    }
+
+    localStorage.setItem('authToken', data.token);
+    localStorage.setItem('userData', JSON.stringify({
+      id: data.user.id,
+      nome: data.user.nome,
+      email: data.user.email
+    }));
+    
+    return data.user;
+
+  } catch (error) {
+    console.error('Erro no login:', error);
+    throw error;
+  }
 }
 
+// Setup do handler de login
 export function setupLoginHandler() {
   const loginForm = document.getElementById('loginForm');
   const loginError = document.getElementById('loginError');
@@ -325,19 +308,15 @@ export function setupLoginHandler() {
   }
 }
 
+// Setup do handler de registro
 export function setupRegisterHandler() {
   const registerForm = document.getElementById('registerUserForm');
   
   if (registerForm) {
-    const newForm = registerForm.cloneNode(true);
-    registerForm.parentNode.replaceChild(newForm, registerForm);
-    
-    const form = document.getElementById('registerUserForm');
-    const submitButton = form.querySelector('button[type="submit"]');
+    const submitButton = registerForm.querySelector('button[type="submit"]');
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      e.stopImmediatePropagation();
       
       const formData = {
         nome: document.getElementById('user-nome').value.trim(),
@@ -347,7 +326,6 @@ export function setupRegisterHandler() {
         tipo: document.getElementById('user-tipo').value || 'padrao'
       };
 
-      // Validações
       if (!formData.nome || !formData.email || !formData.senha || !formData.confirmarSenha) {
         alert('Todos os campos são obrigatórios!');
         return;
@@ -380,7 +358,6 @@ export function setupRegisterHandler() {
           })
         });
 
-        // Tratamento específico para erro 429
         if (response.status === 429) {
           throw new Error('Muitas solicitações. Tente novamente em alguns minutos.');
         }
@@ -392,11 +369,10 @@ export function setupRegisterHandler() {
 
         const data = await response.json();
         alert('Cadastro realizado com sucesso!');
-        form.reset();
+        registerForm.reset();
         
-        // Redireciona para login após 2 segundos
         setTimeout(() => {
-           window.location.href = '/guerreirosDeRua/index.html'; 
+          window.location.href = '/guerreirosDeRua/index.html'; 
         }, 2000);
 
       } catch (error) {
@@ -408,12 +384,11 @@ export function setupRegisterHandler() {
       }
     };
 
-    // Adiciona listeners
-    form.addEventListener('submit', handleSubmit);
-    submitButton.addEventListener('click', handleSubmit);
+    registerForm.addEventListener('submit', handleSubmit);
   }
 }
 
+// Funções de autenticação
 export function estaAutenticado() {
   return !!localStorage.getItem('authToken'); 
 }

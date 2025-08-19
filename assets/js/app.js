@@ -2,11 +2,15 @@ import renderAnimais from './modules/uiHandlers.js';
 import { initAuthHandlers, setupRegisterHandler, setupFormHandlers } from './modules/uiHandlers.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Inicializa todos os handlers de autenticação
   initAuthHandlers();
+  
+  // Configura handlers de formulários
   setupRegisterHandler();
   setupFormHandlers(); 
 
   try {
+    // Carrega os animais iniciais
     const response = await fetch('https://guerreirosderua.onrender.com/api/animais');
     
     // Tratamento específico para erro 429
@@ -34,27 +38,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 });
-
-const API_BASE_URL = 'https://guerreirosderua.onrender.com/api/animais';
-
-export const AnimalAPI = {
-  async listarAnimais() {
-    const response = await fetch(API_BASE_URL);
-    return response.json();
-  },
-
-  async cadastrarAnimal(formData) {
-    const response = await fetch(API_BASE_URL, {
-      method: 'POST',
-      body: formData
-    });
-    return response.json();
-  },
-
-  async marcarComoAdotado(id) {
-    const response = await fetch(`${API_BASE_URL}/${id}/adotar`, {
-      method: 'PATCH'
-    });
-    return response.json();
-  }
-};
