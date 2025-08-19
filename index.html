@@ -12,6 +12,28 @@
     <link rel="shortcut icon" href="./assets/imagens/logo2.png" type="image/x-icon">
 </head>
 <body>
+    <section class="top-bar">
+        <div class="container">
+            <div id="authSection">
+            <!-- Estado não logado -->
+            <button class="auth-btn" id="openLoginModal">
+                <img src="./assets/imagens/icons/login.png" alt="Login">
+                <span>Login</span>
+            </button>
+            
+            <!-- Estado logado -->
+            <div class="logged-user" id="loggedUserSection" style="display: none;">
+                <span id="usernameDisplay">Admin</span>
+                <button class="auth-btn" id="logoutBtn">
+                <img src="./assets/imagens/icons/login.png" alt="Logout">
+                <span>Logout</span>
+                </button>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Header -->
     <header class="header">
         <section class="container">
             <a href="index.html" class="logo">
@@ -251,7 +273,41 @@
         </div>
     </footer>
 
-    <script type="module" src="./assets/js/script.js"></script>
+    <!-- Modal de Login -->
+    <section class="modal-login" id="loginModal" >
+    <div class="modal-content">
+        <button class="close-modal" aria-label="Fechar modal">&times;</button>
+        
+        <div class="login-header">
+        <img src="./assets/imagens/logo2.png" alt="Logo" width="120">
+        <h2>Acesso Restrito</h2>
+        <p>Para cadastrar animais, faça login</p>
+        </div>
+        
+        <form id="loginForm">
+        <div class="form-group">
+            <label for="loginEmail">E-mail</label>
+            <input type="email" id="loginEmail" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="loginSenha">Senha</label>
+            <input type="password" id="loginSenha" required>
+        </div>
+        
+        <button type="submit" class="btn-login">Entrar</button>
+        
+        <div id="loginError" class="error-message"></div>
+        </form>
+    </div>
+    </section>
+
+    <script type="module" src="./assets/js/script.js">
+
+        document.addEventListener('DOMContentLoaded', () => {
+        setupRegisterHandler();
+        });
+    </script>
     <script type="module" src="./assets/js/app.js"></script>
 </body>
 </html>

@@ -12,6 +12,26 @@
         <link rel="shortcut icon" href="../assets/imagens/logo2.png" type="image/x-icon">
 </head>
 <body>
+    <section class="top-bar">
+        <div class="container">
+            <div id="authSection">
+            <!-- Estado não logado -->
+            <button class="auth-btn" id="openLoginModal">
+                <img src="../assets/imagens/icons/login.png" alt="Login">
+                <span>Login</span>
+            </button>
+            
+            <!-- Estado logado -->
+            <div class="logged-user" id="loggedUserSection" style="display: none;">
+                <span id="usernameDisplay">Admin</span>
+                <button class="auth-btn" id="logoutBtn">
+                <img src="../assets/imagens/icons/login.png" alt="Logout">
+                <span>Logout</span>
+                </button>
+            </div>
+            </div>
+        </div>
+    </section>
     <header class="header">
         <div class="container">
             <a href="../index.html" class="logo">
@@ -63,14 +83,14 @@
         <section class="hero-content">
             <div class="container">
                 <h1>Cadastro Online</h1>
-                <p>Cadastre os animais resgatados e disponíevis para adoção</p>
+                <p>Cadastre os animais (& usuários)resgatados e disponíevis para adoção</p>
             </div>
         </section>
     </section>
-
     <main class="main-cadastro">
         <section class="cadastro-section">
             <div class="form-cadastro">
+                <h1>Cadastro de Animais</h1>
                 <!-- Enctype para suportar upload de arquivos -->
                 <form id="form-cadastro" enctype="multipart/form-data">
                     <input type="text" id="nome" name="nome" placeholder="Nome do Animal" required>
@@ -107,13 +127,48 @@
                 </form>
             </div>
 
+      <section class="cadastrar-usuarios">
+        <h1>Cadastro de Usuário</h1>
+        <form id="registerUserForm" >
+            <div class="form-group">
+                <label for="user-nome">Nome:</label>
+                <input type="text" id="user-nome" name="nome" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="user-email">Email:</label>
+                <input type="email" id="user-email" name="email" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="user-senha">Senha (mínimo 6 caracteres):</label>
+                <input type="password" id="user-senha" name="senha" minlength="6" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="user-confirmarSenha">Confirmar Senha:</label>
+                <input type="password" id="user-confirmarSenha" name="confirmarSenha" minlength="6" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="user-tipo">Tipo de Usuário:</label>
+                <select id="user-tipo" name="tipo">
+                    <option value="padrao">Padrão</option>
+                    <option value="voluntario">Voluntário</option>
+                    <option value="admin">Administrador</option>
+                </select>
+            </div>
+        
+            <button type="submit" id="submitButton">Cadastrar</button>
+        </form>
+    </section>
 
-            <!-- Os animais aparecerão aqui -->
 
         </section>
-            <div id="lista-animais">
+         <!-- Os animais aparecerão aqui -->
+        <div id="lista-animais">
                 
-            </div>
+        </div>
         <section class="adoption-process container">
             <h2>Processo de Adoção</h2>
             <ol class="process-steps">
@@ -238,7 +293,18 @@
         </div>
     </div>
 
-    <script type="module" src="../assets/js/script.js"></script>
-    <script type="module" src="../assets/js/app.js"></script>
+    <script type="module" src="../assets/js/script.js">
+        import { estaAutenticado } from '../assets/js/modules/uiHandlers.js';
+        
+        if (!estaAutenticado()) {
+            window.location.href = '../index.html';
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            setupRegisterHandler();
+        });
+    </script>
+    <script type="module" src="../assets/js/app.js">
+        
+    </script>
 </body>
 </html>

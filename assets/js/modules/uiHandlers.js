@@ -1,6 +1,5 @@
-// Renderiza a lista de animais
-export default function renderAnimais(animais, tipoFiltro = null) {
 
+export default function renderAnimais(animais, tipoFiltro = null) {
   const container = document.getElementById('lista-animais');
   
   if (!container) {
@@ -12,11 +11,11 @@ export default function renderAnimais(animais, tipoFiltro = null) {
     container.innerHTML = '<p class="no-animals">Nenhum animal disponível no momento</p>';
     return;
   }
-  const dataNow = Date.now()
+
   container.innerHTML = animais.map(animal => `
     <article class="animal-card">
       <div class="animal-image">
-        <img src="http://localhost:3001/uploads/${animal.foto || 'sem-imagem.jpg'}" alt="${animal.nome || 'Animal'}">
+        <img src="https://guerreirosderua.onrender.com/uploads/${animal.foto || 'sem-imagem.jpg'}" alt="${animal.nome || 'Animal'}">
         <span class="badge ${animal.adotado ? 'adopted' : 'available'}">
           ${animal.adotado ? 'Adotado' : 'Disponível'}
         </span>
@@ -35,59 +34,55 @@ export default function renderAnimais(animais, tipoFiltro = null) {
   `).join('');
 }
 
-// Configura os handlers do formulário
+// Configura os handlers do formulário de animais
 export function setupFormHandlers() {
   const form = document.getElementById('form-cadastro');
   if (!form) return;
+
+  // Remove listeners antigos clonando o formulário
+  const newForm = form.cloneNode(true);
+  form.parentNode.replaceChild(newForm, form);
+  const cleanForm = document.getElementById('form-cadastro');
 
   const loadingIndicator = document.createElement('div');
   loadingIndicator.className = 'loading-indicator';
   loadingIndicator.textContent = 'Enviando...';
   loadingIndicator.style.display = 'none';
-  form.parentNode.insertBefore(loadingIndicator, form.nextSibling);
+  cleanForm.parentNode.insertBefore(loadingIndicator, cleanForm.nextSibling);
 
-  form.addEventListener('submit', async (e) => {
+  cleanForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    // Validação básica
-    const nome = form.nome.value.trim();
-    const tipo = form.tipo.value;
-    const foto = form.foto.files[0];
+    const formData = new FormData(cleanForm);
+    const authToken = localStorage.getItem('authToken');
     
-    if (!nome || !tipo) {
-      alert('Nome e tipo são obrigatórios!');
-      return;
-    }
-    
-    if (!foto) {
-      alert('Selecione uma foto do animal!');
+    if (!authToken) {
+      alert('Você precisa estar logado para cadastrar animais!');
       return;
     }
 
-    const formData = new FormData(form);
-    
     try {
-      // Mostra indicador de carregamento
       loadingIndicator.style.display = 'block';
-      form.querySelector('button[type="submit"]').disabled = true;
+      cleanForm.querySelector('button[type="submit"]').disabled = true;
 
-      const response = await fetch('http://localhost:3001/api/animais', {
+      const response = await fetch('https://guerreirosderua.onrender.com/api/animais', {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        },
         body: formData
       });
 
-      const result = await response.json();
-
       if (!response.ok) {
-        throw new Error(result.error || 'Erro ao cadastrar animal');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Erro ao cadastrar animal');
       }
 
-      // Feedback visual
       alert('Animal cadastrado com sucesso!');
-      form.reset();
+      cleanForm.reset();
       
-      // Recarrega a lista de animais
-      const animaisResponse = await fetch('http://localhost:3001/api/animais');
+      // Atualiza a lista de animais
+      const animaisResponse = await fetch('https://guerreirosderua.onrender.com/api/animais');
       const animais = await animaisResponse.json();
       renderAnimais(animais);
 
@@ -95,9 +90,212 @@ export function setupFormHandlers() {
       console.error('Erro no cadastro:', error);
       alert(`Erro: ${error.message}`);
     } finally {
-      // Esconde indicador de carregamento
       loadingIndicator.style.display = 'none';
-      form.querySelector('button[type="submit"]').disabled = false;
+      cleanForm.querySelector('button[type="submit"]').disabled = false;
     }
   });
+}
+
+// Funções de Autenticação
+export async function fazerLogin(email, senha) {
+    const loginData = {
+        email: email.trim(),
+        senha: senha.trim()
+    };
+
+    try {
+        const response = await fetch('https://guerreirosderua.onrender.com/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(loginData)
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.error || 'Erro na autenticação');
+        }
+
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('userData', JSON.stringify({
+            id: data.user.id,
+            nome: data.user.nome,
+            email: data.user.email
+        }));
+        
+        return data.user;
+
+    } catch (error) {
+        console.error('Erro no login:', error);
+        throw error;
+    }
+}
+
+export function setupLoginHandler() {
+  const loginForm = document.getElementById('loginForm');
+  const loginError = document.getElementById('loginError');
+
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loginError.textContent = '';
+
+      try {
+        const email = document.getElementById('loginEmail').value;
+        const senha = document.getElementById('loginSenha').value;
+        
+        await fazerLogin(email, senha);
+        
+        const modal = document.getElementById('loginModal');
+        if (modal) modal.style.display = 'none';
+        
+        updateAuthUI();
+        
+        if (window.location.pathname.includes('admin.html')) {
+          window.location.reload();
+        }
+      } catch (error) {
+        loginError.textContent = error.message;
+      }
+    });
+  }
+}
+
+// FUNÇÃO AJUSTADA - setupRegisterHandler
+export function setupRegisterHandler() {
+  const registerForm = document.getElementById('registerUserForm');
+  
+  if (registerForm) {
+    // Clone o formulário para limpar event listeners antigos
+    const newForm = registerForm.cloneNode(true);
+    registerForm.parentNode.replaceChild(newForm, registerForm);
+    
+    const form = document.getElementById('registerUserForm');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      
+      const formData = {
+        nome: document.getElementById('user-nome').value.trim(),
+        email: document.getElementById('user-email').value.trim().toLowerCase(),
+        senha: document.getElementById('user-senha').value,
+        confirmarSenha: document.getElementById('user-confirmarSenha').value,
+        tipo: document.getElementById('user-tipo').value || 'padrao'
+      };
+
+      // Validações
+      if (!formData.nome || !formData.email || !formData.senha || !formData.confirmarSenha) {
+        alert('Todos os campos são obrigatórios!');
+        return;
+      }
+
+      if (formData.senha !== formData.confirmarSenha) {
+        alert('As senhas não coincidem!');
+        return;
+      }
+
+      if (formData.senha.length < 6) {
+        alert('A senha deve ter no mínimo 6 caracteres!');
+        return;
+      }
+
+      try {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Cadastrando...';
+
+        const response = await fetch('https://guerreirosderua.onrender.com/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            nome: formData.nome,
+            email: formData.email,
+            senha: formData.senha,
+            tipo: formData.tipo
+          })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Erro ao registrar usuário');
+        }
+
+        const data = await response.json();
+        alert('Cadastro realizado com sucesso!');
+        form.reset();
+        
+        // Redireciona para login após 2 segundos
+        setTimeout(() => {
+          const basePath = window.location.href.split('/frontend/')[0] + '/frontend/';
+          window.location.href = basePath + 'index.html'
+        }, 2000);
+
+      } catch (error) {
+        console.error('Erro no cadastro:', error);
+        alert('Erro: ' + error.message);
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Cadastrar';
+      }
+    };
+
+    // Adiciona listeners
+    form.addEventListener('submit', handleSubmit);
+    submitButton.addEventListener('click', handleSubmit);
+  }
+}
+
+// Funções auxiliares (mantidas iguais)
+export function estaAutenticado() {
+  return !!localStorage.getItem('authToken'); 
+}
+
+export function fazerLogout() {
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('userData');
+  const basePath = window.location.href.split('/frontend/')[0] + '/frontend/';
+  window.location.href = basePath + 'index.html'
+}
+
+export function updateAuthUI() {
+  const isAuthenticated = estaAutenticado();
+  const loginBtn = document.getElementById('openLoginModal');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const loggedUserSection = document.getElementById('loggedUserSection');
+  const cadastrarLink = document.querySelector('a[href*="cadastrarAnimal.html"]');
+
+  if (loginBtn) loginBtn.style.display = isAuthenticated ? 'none' : 'flex';
+  if (logoutBtn) logoutBtn.style.display = isAuthenticated ? 'flex' : 'none';
+  if (loggedUserSection) loggedUserSection.style.display = isAuthenticated ? 'flex' : 'none';
+  if (cadastrarLink) cadastrarLink.style.display = isAuthenticated ? 'block' : 'none';
+
+  if (isAuthenticated) {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    const usernameDisplay = document.getElementById('usernameDisplay');
+    if (usernameDisplay && userData) {
+      usernameDisplay.textContent = userData.email;
+    }
+  }
+}
+
+export function setupLogoutHandler() {
+  const logoutBtn = document.getElementById('logoutBtn');
+  
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      fazerLogout();
+    });
+  }
+}
+
+export function initAuthHandlers() {
+  setupLoginHandler();
+  setupLogoutHandler();
+  updateAuthUI();
 }

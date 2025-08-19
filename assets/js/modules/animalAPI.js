@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:3001/api/animais';
+const API_BASE_URL = 'https://guerreirosderua.onrender.com/api/animais';
 
 export const AnimalAPI = {
   async listarAnimais() {

@@ -1,10 +1,17 @@
 import renderAnimais from './modules/uiHandlers.js';
-import { setupFormHandlers } from './modules/uiHandlers.js';
+import { initAuthHandlers, setupRegisterHandler, setupFormHandlers } from './modules/uiHandlers.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Inicializa todos os handlers de autenticação
+  initAuthHandlers();
+  
+  // Configura handlers de formulários
+  setupRegisterHandler();
+  setupFormHandlers(); 
+
   try {
     // Carrega os animais iniciais
-    const response = await fetch('http://localhost:3001/api/animais');
+    const response = await fetch('https://guerreirosderua.onrender.com/api/animais');
     
     if (!response.ok) {
       throw new Error('Erro ao carregar animais');
@@ -13,25 +20,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     const animais = await response.json();
     renderAnimais(animais);
     
-    // Configura os handlers de formulário
-    setupFormHandlers();
-    
     // Adiciona event listeners para botões de adoção
     document.addEventListener('click', async (e) => {
       if (e.target.classList.contains('btn-adopt')) {
         const animalId = e.target.dataset.id;
         try {
-          const response = await fetch(`http://localhost:3001/api/animais/${animalId}/adotar`, {
-            method: 'PATCH'
+          const authToken = localStorage.getItem('authToken');
+          const response = await fetch(`https://guerreirosderua.onrender.com/api/animais/${animalId}/adotar`, {
+            method: 'PATCH',
+            headers: {
+              'Authorization': `Bearer ${authToken}`
+            }
           });
           
           if (response.ok) {
             alert('Animal marcado como adotado com sucesso!');
-            // Recarrega a lista
-            const animais = await fetch('http://localhost:3001/api/animais').then(r => r.json());
+            const animais = await fetch('https://guerreirosderua.onrender.com/api/animais').then(r => r.json());
             renderAnimais(animais);
-          } else {
-            throw new Error('Erro ao marcar como adotado');
           }
         } catch (error) {
           console.error('Erro:', error);
