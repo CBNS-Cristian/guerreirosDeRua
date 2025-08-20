@@ -86,14 +86,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 
-let tentativas = 0;
-function tentarNovamente() {
-  if (tentativas < 3) {
-    tentativas++;
-    console.log(`🔄 Tentativa ${tentativas} de recarregamento automático...`);
-    setTimeout(() => window.location.reload(), 2000);
-  }
-}
-
 
 window.addEventListener('error', () => tentarNovamente());
