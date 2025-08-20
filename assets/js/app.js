@@ -1,55 +1,43 @@
 import renderAnimais from './modules/uiHandlers.js';
 import { initAuthHandlers, setupRegisterHandler, setupFormHandlers } from './modules/uiHandlers.js';
 
-// ✅ CACHE SIMPLES PARA EVITAR FALHAS
-let animaisCache = null;
-let lastFetchTime = 0;
+const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+const API_URL = 'https://guerreirosderua.onrender.com/api/animais';
 
-async function carregarAnimaisComFallback() {
-  const now = Date.now();
-  
-  // Usa cache se tiver menos de 30 segundos
-  if (animaisCache && (now - lastFetchTime < 30000)) {
-    console.log('📦 Usando cache de animais');
-    return animaisCache;
-  }
-  
+
+async function fetchComProxy(url, options = {}) {
   try {
-    console.log('🌐 Buscando animais do servidor...');
-    const response = await fetch('https://guerreirosderua.onrender.com/api/animais', {
-      method: 'GET',
+    console.log('🔗 Tentando conexão direta...');
+    const response = await fetch(url, {
+      ...options,
       mode: 'cors',
-      credentials: 'omit',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache'
-      }
+      credentials: 'omit'
     });
     
-    if (response.status === 429) {
-      throw new Error('Servidor ocupado. Tente novamente em alguns instantes.');
-    }
-    
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Erro ${response.status}: ${errorText || 'Falha na conexão'}`);
-    }
-    
-    animaisCache = await response.json();
-    lastFetchTime = now;
-    console.log(`✅ ${animaisCache.length} animais carregados do servidor`);
-    return animaisCache;
+    if (response.ok) return response;
     
   } catch (error) {
- 
-    if (animaisCache) {
-      console.warn('⚠️ Usando cache devido a erro de rede:', error.message);
-      return animaisCache;
+    console.log('❌ Conexão direta falhou, usando proxy...');
+    
+
+    try {
+      const proxyUrl = CORS_PROXY + url;
+      const response = await fetch(proxyUrl, {
+        ...options,
+        headers: {
+          ...options.headers,
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+      
+      if (response.ok) return response;
+      
+    } catch (proxyError) {
+      console.error('❌ Proxy também falhou:', proxyError);
     }
-    throw error;
   }
+  
+  throw new Error('Falha na conexão após tentativas');
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -63,37 +51,49 @@ document.addEventListener('DOMContentLoaded', async () => {
       container.innerHTML = '<div class="loading">Carregando animais...</div>';
     }
 
-
-    const animais = await carregarAnimaisComFallback();
+    const response = await fetchComProxy(API_URL, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    });
+    
+    if (response.status === 429) {
+      throw new Error('Servidor ocupado. Tente novamente em alguns instantes.');
+    }
+    
+    if (!response.ok) {
+      throw new Error('Erro ao carregar animais. Tente recarregar a página.');
+    }
+    
+    const animais = await response.json();
     renderAnimais(animais);
     
   } catch (error) {
-    console.error('Erro ao carregar animais:', error);
+    console.error('Erro:', error);
     const container = document.getElementById('lista-animais');
     if (container) {
       container.innerHTML = `
         <div class="error-message">
-          <p>Problema de conexão com o servidor</p>
-          <small>Tente recarregar a página ou volte mais tarde.</small>
+          <p>Problema de conexão</p>
+          <small>Recarregue a página ou tente novamente mais tarde.</small>
           <br>
-          <button onclick="window.location.reload()" class="btn-retry">Recarregar Página</button>
+          <button onclick="window.location.reload()" class="btn-retry">🔄 Recarregar</button>
         </div>
       `;
     }
   }
 });
 
-window.addEventListener('error', (e) => {
-  console.error('Erro capturado:', e.error);
-});
 
-
-const originalFetch = window.fetch;
-window.fetch = async (...args) => {
-  try {
-    return await originalFetch(...args);
-  } catch (error) {
-    console.error('Fetch error:', error);
-    throw error;
+let tentativas = 0;
+function tentarNovamente() {
+  if (tentativas < 3) {
+    tentativas++;
+    console.log(`🔄 Tentativa ${tentativas} de recarregamento automático...`);
+    setTimeout(() => window.location.reload(), 2000);
   }
-};
+}
+
+
+window.addEventListener('error', () => tentarNovamente());
