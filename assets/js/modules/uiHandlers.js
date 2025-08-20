@@ -14,7 +14,7 @@ export default function renderAnimais(animais, tipoFiltro = null) {
   container.innerHTML = animais.map(animal => `
     <article class="animal-card">
       <div class="animal-image">
-        <img src="https://guerreirosderua.onrender.com/uploads/${animal.foto || 'sem-imagem.jpg'}" alt="${animal.nome || 'Animal'}">
+        <img src="${animal.imagem_base64 || 'https://guerreirosderua.onrender.com/uploads/sem-imagem.jpg'}" alt="${animal.nome || 'Animal'}">
         <span class="badge ${animal.adotado ? 'adopted' : 'available'}">
           ${animal.adotado ? 'Adotado' : 'Disponível'}
         </span>
