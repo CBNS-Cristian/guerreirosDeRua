@@ -22,10 +22,10 @@ export default function renderAnimais(animais, tipoFiltro = null) {
   }
 
   container.innerHTML = animaisFiltrados.map(animal => {
-    // ✅ CORREÇÃO: Verifica se há imagem base64 OU usa imagem padrão local
+ 
     const imagemSrc = animal.imagem_base64 
       ? animal.imagem_base64 
-      : './images/sem-imagem.jpg'; // Imagem local como fallback
+      : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZTBlMGUwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9IjAuMzVlbSI+U2VtIEltYWdlbTwvdGV4dD48L3N2Zz4=';
 
     return `
     <article class="animal-card">
