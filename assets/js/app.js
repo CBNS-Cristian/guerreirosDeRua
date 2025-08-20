@@ -2,38 +2,42 @@ import renderAnimais from './modules/uiHandlers.js';
 import { initAuthHandlers, setupRegisterHandler, setupFormHandlers } from './modules/uiHandlers.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Inicializa todos os handlers de autenticação
   initAuthHandlers();
-  
-  // Configura handlers de formulários
   setupRegisterHandler();
   setupFormHandlers(); 
 
   try {
-    // Carrega os animais iniciais
-    const response = await fetch('https://guerreirosderua.onrender.com/api/animais');
+    const container = document.getElementById('lista-animais');
+    if (container) {
+      container.innerHTML = '<div class="loading">Carregando animais...</div>';
+    }
+
+    const response = await fetch('https://guerreirosderua.onrender.com/api/animais', {
+      headers: { 'Cache-Control': 'no-cache' }
+    });
     
-    // Tratamento específico para erro 429
     if (response.status === 429) {
-      throw new Error('Servidor ocupado. Recarregue a página em alguns instantes.');
+      throw new Error('Servidor ocupado. Tente novamente em alguns instantes.');
     }
     
     if (!response.ok) {
-      throw new Error('Erro ao carregar animais');
+      throw new Error('Erro ao carregar animais. Tente recarregar a página.');
     }
     
     const animais = await response.json();
     renderAnimais(animais);
     
   } catch (error) {
-    console.error('Erro inicial:', error);
+    console.error('Erro:', error);
     const container = document.getElementById('lista-animais');
     if (container) {
       container.innerHTML = `
-        <p class="error-message">
-          ${error.message}
-          <br><small>Tente recarregar a página.</small>
-        </p>
+        <div class="error-message">
+          <p>${error.message}</p>
+          <small>Se o problema persistir, entre em contato com o suporte.</small>
+          <br>
+          <button onclick="window.location.reload()" class="btn-retry">Tentar Novamente</button>
+        </div>
       `;
     }
   }

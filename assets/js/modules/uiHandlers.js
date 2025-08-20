@@ -11,10 +11,28 @@ export default function renderAnimais(animais, tipoFiltro = null) {
     return;
   }
 
-  container.innerHTML = animais.map(animal => `
+  // Filtra animais se necessário
+  const animaisFiltrados = tipoFiltro 
+    ? animais.filter(animal => animal.tipo === tipoFiltro)
+    : animais;
+
+  if (animaisFiltrados.length === 0) {
+    container.innerHTML = '<p class="no-animals">Nenhum animal encontrado para o filtro selecionado</p>';
+    return;
+  }
+
+  container.innerHTML = animaisFiltrados.map(animal => {
+    // ✅ CORREÇÃO: Verifica se há imagem base64 OU usa imagem padrão local
+    const imagemSrc = animal.imagem_base64 
+      ? animal.imagem_base64 
+      : './images/sem-imagem.jpg'; // Imagem local como fallback
+
+    return `
     <article class="animal-card">
       <div class="animal-image">
-        <img src="${animal.imagem_base64 || 'https://guerreirosderua.onrender.com/uploads/sem-imagem.jpg'}" alt="${animal.nome || 'Animal'}">
+        <img src="${imagemSrc}" 
+             alt="${animal.nome || 'Animal'}" 
+             onerror="this.src='./images/sem-imagem.jpg'; this.onerror=null;">
         <span class="badge ${animal.adotado ? 'adopted' : 'available'}">
           ${animal.adotado ? 'Adotado' : 'Disponível'}
         </span>
@@ -30,7 +48,7 @@ export default function renderAnimais(animais, tipoFiltro = null) {
         ${!animal.adotado ? `<button class="btn-adopt" data-id="${animal.id}" data-name="${animal.nome || 'Animal'}">Quero adotar</button>` : ''}
       </div>
     </article>
-  `).join('');
+  `}).join('');
 
   // Adiciona event listeners aos botões de adoção
   document.querySelectorAll('.btn-adopt').forEach(button => {
